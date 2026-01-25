@@ -131,7 +131,7 @@ Send Sensor Data
 
 **Use case :**
 
-` Drill-down analysis for problem zones`
+`Drill-down analysis for problem zones`
 
 `Triggered when a zone is selected on the dashboard`
 
