@@ -1,8 +1,7 @@
 import express from "express"
 import cors from "cors"
-
-
-
+import iotRoutes from "./routes/iot.routes.js";
+import dashboardRoutes from "./routes/dashboard.routes.js";
 
 
 
@@ -14,5 +13,8 @@ app.use(cors({
 app.use(express.json({limit:"162kb"}))
 app.use(express.urlencoded({extended:true, limit:"16kb"}))
 app.use(express.static("public"))
+app.use("/api/iot", iotRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+
 
 export default app

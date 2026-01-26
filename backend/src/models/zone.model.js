@@ -27,4 +27,4 @@ const zoneSchema = new mongoose.Schema(
   }
 );
 
-export const Zone = mongoose.model("Zone", zoneSchema);
+export default mongoose.model("Zone", zoneSchema);
