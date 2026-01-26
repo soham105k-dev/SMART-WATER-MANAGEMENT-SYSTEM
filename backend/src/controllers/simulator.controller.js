@@ -1,5 +1,3 @@
-// src/controllers/simulator.controller.js
-
 import Zone from "../models/zone.model.js";
 import {
   startSimulation,

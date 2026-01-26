@@ -13,23 +13,22 @@ triggerUnevenDistribution(zones)
 import axios from "axios";
 import { PRESSURE, FLOW } from "../config/thresholds.js";
 
-// ==========================
+
 // CONFIG
-// ==========================
+
 const SIMULATION_INTERVAL = 1 * 60 * 1000; // 1 minute
 const API_BASE_URL = "http://localhost:6000";
 
 let simulationTimer = null;
 
-// ==========================
 // UTILITIES
-// ==========================
+
 const randomInRange = (min, max) =>
   Number((Math.random() * (max - min) + min).toFixed(2));
 
-// ==========================
+
 // DATA GENERATORS
-// ==========================
+
 const generateNormalData = (zoneId) => ({
   zoneId,
   pressure: randomInRange(PRESSURE.NORMAL_MIN, PRESSURE.NORMAL_MAX),
@@ -58,9 +57,9 @@ const simulateUnevenDistribution = (zones) =>
     flow: randomInRange(FLOW.NORMAL_MIN, FLOW.NORMAL_MAX),
   }));
 
-// ==========================
+
 // PUSH TO BACKEND
-// ==========================
+
 const pushSensorData = async (payload) => {
   try {
     await axios.post(`${API_BASE_URL}/api/iot/data`, payload);
@@ -69,9 +68,8 @@ const pushSensorData = async (payload) => {
   }
 };
 
-// ==========================
 // SIMULATION CONTROLS
-// ==========================
+
 export const startSimulation = async (zones) => {
   if (simulationTimer) return;
 
@@ -102,9 +100,8 @@ export const stopSimulation = () => {
   }
 };
 
-// ==========================
 // MANUAL DEMO TRIGGERS
-// ==========================
+
 export const triggerLowPressure = async (zoneId) => {
   console.log(` Low pressure triggered for zone ${zoneId}`);
   await pushSensorData(simulateLowPressure(zoneId));

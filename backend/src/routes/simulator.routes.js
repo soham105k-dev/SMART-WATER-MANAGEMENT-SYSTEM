@@ -13,15 +13,15 @@ import {
 
 const router = express.Router();
 
-// ===============================
+
 // START / STOP
-// ===============================
+
 router.post("/start", startIoTSimulation);
 router.post("/stop", stopIoTSimulation);
 
-// ===============================
+
 // INTERNAL TRIGGER ROUTES (DEMO)
-// ===============================
+
 
 // LOW PRESSURE
 router.post("/trigger/low-pressure/:zoneId", async (req, res) => {
