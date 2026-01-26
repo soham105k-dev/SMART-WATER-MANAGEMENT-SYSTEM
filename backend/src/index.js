@@ -1,16 +1,20 @@
 import dotenv from "dotenv";
-dotenv.config({
-    path: "./.env"
-});    
+dotenv.config({ path: "./.env" });
 import ConnectDB from "./config/db.js";
 import app from "./app.js";
+import Zone from "./models/zone.model.js";
+import { startSimulation } from "./services/iotSimulator.service.js";
 
 ConnectDB()
-.then(()=>{
-    app.listen(process.env.PORT || 6000 , ()=>{
-        console.log(`Server is running on port ${process.env.PORT || 6000}`);
-    })
-})
-.catch( (err)=> {
-    console.log("mongo DB connection error",err);
-}) 
+  .then(async () => {
+    app.listen(process.env.PORT || 6000, async () => {
+      console.log(`🚀 Server is running on port ${process.env.PORT || 6000}`);
+
+      //  START IOT SIMULATION
+      const zones = await Zone.find({ isActive: true });
+      startSimulation(zones);
+    });
+  })
+  .catch((err) => {
+    console.log(" MongoDB connection error:", err);
+  });

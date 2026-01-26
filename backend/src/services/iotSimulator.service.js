@@ -1,113 +1,99 @@
 /*
-Functions
+Functions available:
 
-startSimulation()
+startSimulation(zones)
 stopSimulation()
-generateNormalData(zoneId)
-simulateLowPressure(zoneId)
-simulateLeakage(zoneId)
-simulateUnevenDistribution()
+triggerLowPressure(zoneId)
+triggerLeakage(zoneId)
+triggerUnevenDistribution(zones)
 
-👉 Not exposed to frontend
-
-*/ 
-
-
-// services/iotSimulator.service.js
+⚠️ Internal use only (NOT exposed to frontend)
+*/
 
 import axios from "axios";
 import { PRESSURE, FLOW } from "../config/thresholds.js";
 
-// Internal config
-const SIMULATION_INTERVAL = 5000; // 5 seconds
+// ==========================
+// CONFIG
+// ==========================
+const SIMULATION_INTERVAL = 1 * 60 * 1000; // 1 minute
+const API_BASE_URL = "http://localhost:6000";
+
 let simulationTimer = null;
 
-/**
- * Utility: generate random number in range
- */
-const randomInRange = (min, max) => {
-  return Number((Math.random() * (max - min) + min).toFixed(2));
-};
+// ==========================
+// UTILITIES
+// ==========================
+const randomInRange = (min, max) =>
+  Number((Math.random() * (max - min) + min).toFixed(2));
 
-/**
- * Generate NORMAL sensor data
- */
-const generateNormalData = (zoneId) => {
-  return {
-    zoneId,
-    pressure: randomInRange(PRESSURE.NORMAL_MIN, PRESSURE.NORMAL_MAX),
-    flow: randomInRange(FLOW.NORMAL_MIN, FLOW.NORMAL_MAX),
-  };
-};
+// ==========================
+// DATA GENERATORS
+// ==========================
+const generateNormalData = (zoneId) => ({
+  zoneId,
+  pressure: randomInRange(PRESSURE.NORMAL_MIN, PRESSURE.NORMAL_MAX),
+  flow: randomInRange(FLOW.NORMAL_MIN, FLOW.NORMAL_MAX),
+});
 
-/**
- * Simulate LOW PRESSURE
- */
-const simulateLowPressure = (zoneId) => {
-  return {
-    zoneId,
-    pressure: randomInRange(1.2, PRESSURE.MIN_SAFE - 0.1),
-    flow: randomInRange(FLOW.NORMAL_MIN, FLOW.NORMAL_MAX),
-  };
-};
+const simulateLowPressure = (zoneId) => ({
+  zoneId,
+  pressure: randomInRange(1.2, PRESSURE.MIN_SAFE - 0.1),
+  flow: randomInRange(FLOW.NORMAL_MIN, FLOW.NORMAL_MAX),
+});
 
-/**
- * Simulate LEAKAGE
- * Low pressure + high flow
- */
-const simulateLeakage = (zoneId) => {
-  return {
-    zoneId,
-    pressure: randomInRange(1.0, PRESSURE.MIN_SAFE - 0.2),
-    flow: randomInRange(FLOW.HIGH_FLOW + 20, FLOW.HIGH_FLOW + 150),
-  };
-};
+const simulateLeakage = (zoneId) => ({
+  zoneId,
+  pressure: randomInRange(1.0, PRESSURE.MIN_SAFE - 0.2),
+  flow: randomInRange(FLOW.HIGH_FLOW + 20, FLOW.HIGH_FLOW + 150),
+});
 
-/**
- * Simulate UNEVEN DISTRIBUTION
- * Different pressure values across zones
- */
-const simulateUnevenDistribution = (zones) => {
-  return zones.map((zone, index) => ({
-    zoneId: zone.id,
+const simulateUnevenDistribution = (zones) =>
+  zones.map((zone, index) => ({
+    zoneId: zone._id.toString(),
     pressure:
       index % 2 === 0
         ? randomInRange(3.2, 3.6) // High pressure
         : randomInRange(1.3, 1.7), // Low pressure
     flow: randomInRange(FLOW.NORMAL_MIN, FLOW.NORMAL_MAX),
   }));
-};
 
-/**
- * Push sensor data to backend ingestion API
- */
+// ==========================
+// PUSH TO BACKEND
+// ==========================
 const pushSensorData = async (payload) => {
   try {
-    await axios.post("http://localhost:6000/api/iot/data", payload);
+    await axios.post(`${API_BASE_URL}/api/iot/data`, payload);
   } catch (error) {
-    console.error(" Failed to push sensor data", error.message);
+    console.error(" Failed to push sensor data:", error.message);
   }
 };
 
-/**
- * Start NORMAL simulation
- */
-export const startSimulation = (zones) => {
+// ==========================
+// SIMULATION CONTROLS
+// ==========================
+export const startSimulation = async (zones) => {
   if (simulationTimer) return;
 
-  console.log(" IoT Simulation started (NORMAL mode)");
+  console.log(" IoT Simulation started (every 1 minute)");
+
+  await Promise.all(
+    zones.map((zone) =>
+      pushSensorData(generateNormalData(zone._id.toString()))
+    )
+  );
 
   simulationTimer = setInterval(async () => {
-    for (const zone of zones) {
-      const data = generateNormalData(zone.id);
-      await pushSensorData(data);
-    }
+    await Promise.all(
+      zones.map((zone) =>
+        pushSensorData(generateNormalData(zone._id.toString()))
+      )
+    );
+    console.log(" Sensor data pushed at:", new Date().toLocaleTimeString());
   }, SIMULATION_INTERVAL);
 };
 
-/**
- * Stop simulation
- */
+
 export const stopSimulation = () => {
   if (simulationTimer) {
     clearInterval(simulationTimer);
@@ -116,32 +102,22 @@ export const stopSimulation = () => {
   }
 };
 
-/**
- * Trigger LOW PRESSURE manually (demo)
- */
+// ==========================
+// MANUAL DEMO TRIGGERS
+// ==========================
 export const triggerLowPressure = async (zoneId) => {
   console.log(` Low pressure triggered for zone ${zoneId}`);
-  const data = simulateLowPressure(zoneId);
-  await pushSensorData(data);
+  await pushSensorData(simulateLowPressure(zoneId));
 };
 
-/**
- * Trigger LEAKAGE manually (demo)
- */
 export const triggerLeakage = async (zoneId) => {
   console.log(` Leakage triggered for zone ${zoneId}`);
-  const data = simulateLeakage(zoneId);
-  await pushSensorData(data);
+  await pushSensorData(simulateLeakage(zoneId));
 };
 
-/**
- * Trigger UNEVEN DISTRIBUTION manually (demo)
- */
 export const triggerUnevenDistribution = async (zones) => {
   console.log(" Uneven distribution triggered");
-  const payloads = simulateUnevenDistribution(zones);
 
-  for (const payload of payloads) {
-    await pushSensorData(payload);
-  }
+  const payloads = simulateUnevenDistribution(zones);
+  await Promise.all(payloads.map(pushSensorData));
 };
