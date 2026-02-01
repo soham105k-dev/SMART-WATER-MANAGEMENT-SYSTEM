@@ -7,7 +7,12 @@
   flex-shrink: 0;
   overflow: hidden;
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.4);
-  position: relative;
+
+  /* 🔧 FIX */
+  position: fixed;
+  top: 0;
+  left: 0;
+
   z-index: 40;
 }
 

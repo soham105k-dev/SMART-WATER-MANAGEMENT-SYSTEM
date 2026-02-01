@@ -1,19 +1,19 @@
 import "./SideBar.css";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+
 import { LuLayoutDashboard } from "react-icons/lu";
 import { CiMap } from "react-icons/ci";
 import { FiAlertTriangle } from "react-icons/fi";
 import { VscGraph } from "react-icons/vsc";
-import { AiTwotoneControl } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaChevronLeft } from "react-icons/fa";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
+
   return (
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-
       <div className="sidebar-logo">
         <div
           className="sidebar-collapse"
@@ -53,20 +53,12 @@ const SideBar = () => {
         </li>
 
         <li>
-          <NavLink to="/simulation-control" className="sidebar-link">
-            <AiTwotoneControl />
-            <span className="sidebar-text">Simulation Control</span>
-          </NavLink>
-        </li>
-
-        <li>
           <NavLink to="/settings" className="sidebar-link">
             <IoSettingsOutline />
             <span className="sidebar-text">Settings</span>
           </NavLink>
         </li>
       </ul>
-
     </div>
   );
 };

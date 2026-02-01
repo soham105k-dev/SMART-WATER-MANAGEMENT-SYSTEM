@@ -6,7 +6,7 @@ import Alerts from "./pages/alerts/alerts";
 import Analytics from "./pages/analytics/analytics";
 import Settings from "./pages/settings/settings";
 import ZoneMonitoring from "./pages/zoneMonitoring/zoneMonitoring";
-import SimulationControl from "./pages/simulationControl/simulationControl";
+
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         <Route path="analytics" element={<Analytics />} />
         <Route path="settings" element={<Settings />} />
         <Route path="zone-monitoring" element={<ZoneMonitoring />} />
-        <Route path="simulation-control" element={<SimulationControl />} />
+
       </Route>
     </Routes>
   );

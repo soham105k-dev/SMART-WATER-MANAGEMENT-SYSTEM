@@ -1,4 +1,6 @@
-/* Main Dashboard Container */
+/* ===============================
+   Main Dashboard Container
+================================ */
 .dashboard-layout {
   min-height: 100vh;
   width: 100%;
@@ -8,25 +10,30 @@
   background-color: #f1f5f9;
 }
 
-/* Header - Full width */
+/* ===============================
+   Header
+================================ */
 .dashboard-layout > .Header {
   width: 100%;
   flex-shrink: 0;
   z-index: 50;
 }
 
-/* Main Dashboard Area - Flex row */
+/* ===============================
+   Main Dashboard Area
+================================ */
 .dashboard-main {
   display: flex;
   flex: 1;
-  min-height: 0; /* Critical for flex overflow */
+  min-height: 0; /* critical for scroll */
   width: 100%;
   overflow: hidden;
-  gap: 0;
 }
 
-/* Sidebar - Fixed positioning */
-.dashboard-main > .SideBar {
+/* ===============================
+   Sidebar (desktop)
+================================ */
+.dashboard-main > .sidebar {
   height: 100vh;
   flex-shrink: 0;
   position: sticky;
@@ -35,51 +42,63 @@
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Collapsed sidebar width */
-.dashboard-main > .SideBar.collapsed {
-  width: clamp(68px, 8vw, 76px) !important;
+/* Collapsed sidebar */
+.dashboard-main > .sidebar.collapsed {
+  width: 72px !important;
+  min-width: 72px !important;
 }
 
-/* Main Content Area */
+/* ===============================
+   Main Content Area
+================================ */
 .dashboard-content {
   flex: 1;
-  min-width: 0; /* Prevents overflow */
+  min-width: 0; /* prevents overflow */
   padding: 1.5rem;
   overflow-y: auto;
   overflow-x: hidden;
-  transition: margin-left 0.3s ease;
+  background: #f8fafc;
 }
 
-/* Responsive adjustments */
+/* ===============================
+   Responsive tweaks
+================================ */
 @media (max-width: 1024px) {
   .dashboard-content {
     padding: 1rem;
   }
 }
 
+/* ===============================
+   Mobile Layout
+================================ */
 @media (max-width: 768px) {
   .dashboard-main {
     flex-direction: column;
   }
-  
-  .dashboard-main > .SideBar {
+
+  .dashboard-main > .sidebar {
     position: fixed;
+    top: 0;
+    left: 0;
     width: 280px;
+    height: 100vh;
     transform: translateX(-100%);
     z-index: 1000;
   }
-  
-  .dashboard-main > .SideBar.open {
+
+  .dashboard-main > .sidebar.open {
     transform: translateX(0);
   }
-  
+
   .dashboard-content {
     padding: 1rem;
-    margin-left: 0 !important;
   }
 }
 
-/* Scrollbar styling for content */
+/* ===============================
+   Scrollbar styling
+================================ */
 .dashboard-content::-webkit-scrollbar {
   width: 6px;
 }
@@ -95,43 +114,4 @@
 
 .dashboard-content::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.4);
-}
-
-/* Prevent body overflow */
-@media (min-width: 769px) {
-  .dashboard-main {
-    overflow-x: hidden !important;
-  }
-}
-
-/* ADD THIS - Makes content expand when sidebar collapses */
-.dashboard-main {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-  width: 100%;
-  overflow: hidden;
-  gap: 0;
-}
-
-/* CRITICAL FIX - Content expands when sidebar shrinks */
-.dashboard-main > .sidebar.collapsed + .dashboard-content {
-  flex: 1 1 100% !important;
-  margin-left: 0 !important;
-  padding-left: 1.5rem !important;
-}
-
-.dashboard-content {
-  flex: 1 !important;
-  min-width: 0;
-  padding: 1.5rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  transition: all 0.3s ease !important;
-}
-
-/* Normal state */
-.dashboard-main > .sidebar:not(.collapsed) + .dashboard-content {
-  flex: 1;
-  padding-left: 1.5rem;
 }
