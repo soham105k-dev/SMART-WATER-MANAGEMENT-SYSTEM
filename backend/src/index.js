@@ -9,10 +9,6 @@ ConnectDB()
   .then(async () => {
     app.listen(process.env.PORT || 6000, async () => {
       console.log(`🚀 Server is running on port ${process.env.PORT || 6000}`);
-
-      //  START IOT SIMULATION
-      const zones = await Zone.find({ isActive: true });
-      startSimulation(zones);
     });
   })
   .catch((err) => {
