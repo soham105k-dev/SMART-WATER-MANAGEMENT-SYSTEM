@@ -1,0 +1,1 @@
+export const DB_NAME = "smart_water_management_system";
