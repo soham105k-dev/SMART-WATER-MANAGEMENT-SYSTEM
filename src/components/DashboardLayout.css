@@ -1,0 +1,137 @@
+/* Main Dashboard Container */
+.dashboard-layout {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+/* Header - Full width */
+.dashboard-layout > .Header {
+  width: 100%;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+/* Main Dashboard Area - Flex row */
+.dashboard-main {
+  display: flex;
+  flex: 1;
+  min-height: 0; /* Critical for flex overflow */
+  width: 100%;
+  overflow: hidden;
+  gap: 0;
+}
+
+/* Sidebar - Fixed positioning */
+.dashboard-main > .SideBar {
+  height: 100vh;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Collapsed sidebar width */
+.dashboard-main > .SideBar.collapsed {
+  width: clamp(68px, 8vw, 76px) !important;
+}
+
+/* Main Content Area */
+.dashboard-content {
+  flex: 1;
+  min-width: 0; /* Prevents overflow */
+  padding: 1.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: margin-left 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .dashboard-content {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    flex-direction: column;
+  }
+  
+  .dashboard-main > .SideBar {
+    position: fixed;
+    width: 280px;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+  
+  .dashboard-main > .SideBar.open {
+    transform: translateX(0);
+  }
+  
+  .dashboard-content {
+    padding: 1rem;
+    margin-left: 0 !important;
+  }
+}
+
+/* Scrollbar styling for content */
+.dashboard-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Prevent body overflow */
+@media (min-width: 769px) {
+  .dashboard-main {
+    overflow-x: hidden !important;
+  }
+}
+
+/* ADD THIS - Makes content expand when sidebar collapses */
+.dashboard-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  gap: 0;
+}
+
+/* CRITICAL FIX - Content expands when sidebar shrinks */
+.dashboard-main > .sidebar.collapsed + .dashboard-content {
+  flex: 1 1 100% !important;
+  margin-left: 0 !important;
+  padding-left: 1.5rem !important;
+}
+
+.dashboard-content {
+  flex: 1 !important;
+  min-width: 0;
+  padding: 1.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s ease !important;
+}
+
+/* Normal state */
+.dashboard-main > .sidebar:not(.collapsed) + .dashboard-content {
+  flex: 1;
+  padding-left: 1.5rem;
+}

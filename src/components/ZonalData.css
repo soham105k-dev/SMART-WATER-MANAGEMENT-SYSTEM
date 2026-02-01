@@ -1,0 +1,42 @@
+.zonal-data-page {
+  padding: 2rem;
+  max-width: 100%vw;
+  margin: 0 auto;
+}
+/* .page-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
+}
+
+.page-header p {
+  color: #64748b;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+} */
+
+.zone-grid {
+  display: grid;
+  grid-auto-columns: minmax(15rem, 10rem);
+  gap: 1.75rem;
+}
+
+@media (max-width: 768px) {
+  .zonal-data-page {
+    padding: 1rem;
+  }
+  
+  .zone-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}

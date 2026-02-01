@@ -1,0 +1,10 @@
+.data-review {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.zonal-data {
+    display: flex;
+    flex-direction: column;
+}

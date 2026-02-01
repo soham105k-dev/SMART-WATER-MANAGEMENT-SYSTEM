@@ -1,0 +1,153 @@
+.simulation-panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  margin-top: 24px;
+}
+
+.simulation-panel h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #5f6c7b;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+.simulation-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  min-width: none;
+  min-height: 2rem;
+}
+
+.sim-btn {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.25s ease;
+}
+
+.sim-btn .icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.sim-btn .title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: block;
+  padding: 0.1rem 0;
+  letter-spacing: 0.02rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sim-btn .desc {
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.sim-btn.primary {
+  background: #1f4e94;
+  color: #ffffff;
+}
+
+.sim-btn.primary:hover {
+  background: #163c74;
+  transform: translateY(-4px);
+}
+
+.sim-btn.reset {
+  background: #ffffff;
+  border: 2px solid #d7dde7;
+  color: #1f2937;
+}
+
+.sim-btn.reset:hover {
+  background: #f4f6f9;
+}
+
+.sim-btn.reset {
+  grid-column: span 1;
+}
+
+.sim-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 600px) {
+
+  .simulation-panel {
+    padding: 16px;
+  }
+
+  .simulation-panel h2 {
+    font-size: 18px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .simulation-buttons {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sim-btn {
+    padding: 16px;
+  }
+
+  .sim-btn .icon {
+    font-size: 20px;
+  }
+
+  .sim-btn .title {
+    font-size: 14px;
+  }
+
+  .sim-btn .desc {
+    font-size: 12px;
+  }
+
+  .sim-btn.reset {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 900px) {
+
+  .simulation-buttons {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .simulation-panel {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1400px) {
+
+  .simulation-panel {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .simulation-buttons {
+    gap: 20px;
+  }
+}
+
