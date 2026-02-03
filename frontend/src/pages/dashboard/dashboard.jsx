@@ -1,7 +1,7 @@
 import DashboardStats from "../../components/DashboardStats";
 import ZonalData from "../../components/ZonalData";
 import "./dashboard.css";
-<<<<<<< HEAD
+
 import { useEffect, useState } from "react";
 import {
   getDashboardZones,
@@ -71,10 +71,6 @@ const Dashboard = () => {
       ? `${zones.filter(z => z.status === "NORMAL").length}/${zones.length}`
       : "0/0";
 
-=======
-
-const Dashboard = () => {
->>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -82,7 +78,7 @@ const Dashboard = () => {
         <p>Real time water pressure monitoring for Solapur City</p>
       </div>
 
-<<<<<<< HEAD
+
       <DashboardStats
         avgPressure={avgPressure}
         avgFlow={avgFlow}
@@ -91,16 +87,9 @@ const Dashboard = () => {
       />
 
       <ZonalData zones={zones} />
-=======
-      <DashboardStats />
-      <ZonalData />
->>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
+
     </div>
   );
 };
 
 export default Dashboard;
-<<<<<<< HEAD
-=======
- 
->>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf

@@ -14,11 +14,7 @@ app.use(cors({
 app.use(express.json({limit:"162kb"}))
 app.use(express.urlencoded({extended:true, limit:"16kb"}))
 app.use(express.static("public"))
-<<<<<<< HEAD
 app.use("/api", iotRoutes);
-=======
-app.use("/api/iot", iotRoutes);
->>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/simulator", simulatorRoutes);
 
