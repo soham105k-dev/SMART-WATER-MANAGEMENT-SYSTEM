@@ -1,0 +1,117 @@
+/* ===============================
+   Main Dashboard Container
+================================ */
+.dashboard-layout {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+/* ===============================
+   Header
+================================ */
+.dashboard-layout > .Header {
+  width: 100%;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+/* ===============================
+   Main Dashboard Area
+================================ */
+.dashboard-main {
+  display: flex;
+  flex: 1;
+  min-height: 0; /* critical for scroll */
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ===============================
+   Sidebar (desktop)
+================================ */
+.dashboard-main > .sidebar {
+  height: 100vh;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Collapsed sidebar */
+.dashboard-main > .sidebar.collapsed {
+  width: 72px !important;
+  min-width: 72px !important;
+}
+
+/* ===============================
+   Main Content Area
+================================ */
+.dashboard-content {
+  flex: 1;
+  min-width: 0; /* prevents overflow */
+  padding: 1.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f8fafc;
+}
+
+/* ===============================
+   Responsive tweaks
+================================ */
+@media (max-width: 1024px) {
+  .dashboard-content {
+    padding: 1rem;
+  }
+}
+
+/* ===============================
+   Mobile Layout
+================================ */
+@media (max-width: 768px) {
+  .dashboard-main {
+    flex-direction: column;
+  }
+
+  .dashboard-main > .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+
+  .dashboard-main > .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .dashboard-content {
+    padding: 1rem;
+  }
+}
+
+/* ===============================
+   Scrollbar styling
+================================ */
+.dashboard-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
