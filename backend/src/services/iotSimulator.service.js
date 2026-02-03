@@ -17,7 +17,11 @@ import { PRESSURE, FLOW } from "../config/thresholds.js";
 // CONFIG
 
 const SIMULATION_INTERVAL = 1 * 60 * 1000; // 1 minute
+<<<<<<< HEAD
 const API_BASE_URL = "http://localhost:5000";
+=======
+const API_BASE_URL = "http://localhost:6000";
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
 
 let simulationTimer = null;
 
@@ -64,11 +68,16 @@ const pushSensorData = async (payload) => {
   try {
     await axios.post(`${API_BASE_URL}/api/iot/data`, payload);
   } catch (error) {
+<<<<<<< HEAD
   console.error(
     "Failed to push sensor data:",
     error.response?.data || error.message
   );
 }
+=======
+    console.error(" Failed to push sensor data:", error.message);
+  }
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
 };
 
 // SIMULATION CONTROLS

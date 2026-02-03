@@ -10,6 +10,7 @@ import {
 } from "../utils/response.js";
 
 /**
+<<<<<<< HEAD
  * GET /api/dashboard/zones
  * City-wide zone overview (LATEST SNAPSHOT)
  */
@@ -21,22 +22,41 @@ export const getAllZones = async (req, res) => {
     // 2️⃣ Fetch latest sensor reading PER zone
     const latestSensorData = await SensorData.aggregate([
       { $sort: { createdAt: -1 } }, // ✅ correct timestamp field
+=======
+ * GET /dashboard/zones
+ * City-wide zone overview
+ */
+export const getAllZones = async (req, res) => {
+  try {
+    const zones = await Zone.find({ isActive: true });
+
+    const latestSensorData = await SensorData.aggregate([
+      { $sort: { created_at: -1 } },
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
       {
         $group: {
           _id: "$zone_id",
           pressure: { $first: "$pressure" },
           flow: { $first: "$flow" },
+<<<<<<< HEAD
           lastUpdated: { $first: "$createdAt" },
+=======
+          updatedAt: { $first: "$created_at" },
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
         },
       },
     ]);
 
+<<<<<<< HEAD
     // 3️⃣ Convert aggregation result to lookup map
+=======
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
     const sensorMap = {};
     latestSensorData.forEach((item) => {
       sensorMap[item._id.toString()] = item;
     });
 
+<<<<<<< HEAD
     // 4️⃣ Build dashboard-safe response (frontend-ready)
     const response = zones.map((zone) => {
       const sensor = sensorMap[zone._id.toString()];
@@ -53,6 +73,16 @@ export const getAllZones = async (req, res) => {
         lastUpdated: sensor?.lastUpdated ?? null,
       };
     });
+=======
+    const response = zones.map((zone) => ({
+      zoneId: zone._id,
+      name: zone.name,
+      supply_status: zone.supply_status,
+      latestPressure: sensorMap[zone._id]?.pressure || null,
+      latestFlow: sensorMap[zone._id]?.flow || null,
+      lastUpdated: sensorMap[zone._id]?.updatedAt || null,
+    }));
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
 
     return successResponse(
       res,
@@ -66,7 +96,11 @@ export const getAllZones = async (req, res) => {
 };
 
 /**
+<<<<<<< HEAD
  * GET /api/dashboard/alerts
+=======
+ * GET /dashboard/alerts
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
  * Fetch all ACTIVE alerts
  */
 export const getActiveAlerts = async (req, res) => {
@@ -96,7 +130,11 @@ export const getActiveAlerts = async (req, res) => {
 };
 
 /**
+<<<<<<< HEAD
  * GET /api/dashboard/zones/:zoneId
+=======
+ * GET /dashboard/zones/:zoneId
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
  * Detailed analytics for a specific zone
  */
 export const getZoneAnalytics = async (req, res) => {
@@ -109,7 +147,11 @@ export const getZoneAnalytics = async (req, res) => {
     }
 
     const recentReadings = await SensorData.find({ zone_id: zoneId })
+<<<<<<< HEAD
       .sort({ createdAt: -1 })
+=======
+      .sort({ created_at: -1 })
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
       .limit(20);
 
     const alerts = await Alert.find({ zone_id: zoneId })
@@ -124,7 +166,10 @@ export const getZoneAnalytics = async (req, res) => {
           zoneId: zone._id,
           name: zone.name,
           supply_status: zone.supply_status,
+<<<<<<< HEAD
           status: zone.status,
+=======
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
         },
         recentReadings,
         alerts,

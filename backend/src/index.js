@@ -8,7 +8,11 @@ import { startSimulation } from "./services/iotSimulator.service.js";
 ConnectDB()
   .then(async () => {
     app.listen(process.env.PORT || 6000, async () => {
+<<<<<<< HEAD
       console.log(`🚀 Server is running on port ${process.env.PORT || 5000}`);
+=======
+      console.log(`🚀 Server is running on port ${process.env.PORT || 6000}`);
+>>>>>>> 5836bb3d8e02a8e52accbd89e976d3e56cbcebcf
     });
   })
   .catch((err) => {
