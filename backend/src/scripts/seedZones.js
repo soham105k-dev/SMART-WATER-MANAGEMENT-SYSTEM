@@ -1,4 +1,3 @@
-// src/scripts/seedZones.js
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -8,14 +7,11 @@ import connectDB from "../config/db.js";
 
 const seedZones = async () => {
   try {
-    // Connect to DB
+  
     await connectDB();
-
-    // Clear existing zones
     await Zone.deleteMany();
     console.log(" Existing zones cleared");
 
-    // Zone seed data (Solapur-based)
     const zones = [
       {
         name: "North Solapur",
@@ -44,7 +40,6 @@ const seedZones = async () => {
       },
     ];
 
-    // Insert zones
     const createdZones = await Zone.insertMany(zones);
 
     console.log(" Zones seeded successfully");
@@ -59,5 +54,4 @@ const seedZones = async () => {
   }
 };
 
-// Run seed
 seedZones();

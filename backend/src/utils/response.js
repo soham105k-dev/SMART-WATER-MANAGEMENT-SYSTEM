@@ -1,8 +1,3 @@
-// utils/response.js
-
-/**
- * Standard success response
- */
 export const successResponse = (
   res,
   message = "Success",
@@ -16,9 +11,7 @@ export const successResponse = (
   });
 };
 
-/**
- * Standard error response
- */
+
 export const errorResponse = (
   res,
   message = "Internal Server Error",
