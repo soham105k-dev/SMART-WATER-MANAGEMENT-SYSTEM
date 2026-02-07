@@ -3,16 +3,11 @@ import {
   startSimulation,
   stopSimulation,
 } from "../services/iotSimulator.service.js";
-
 import {
   successResponse,
   errorResponse,
 } from "../utils/response.js";
 
-/**
- * START IoT simulation
- * POST /api/simulator/start
- */
 export const startIoTSimulation = async (req, res) => {
   try {
     const zones = await Zone.find({ isActive: true });
@@ -37,10 +32,6 @@ export const startIoTSimulation = async (req, res) => {
   }
 };
 
-/**
- * STOP IoT simulation
- * POST /api/simulator/stop
- */
 export const stopIoTSimulation = (req, res) => {
   try {
     stopSimulation();

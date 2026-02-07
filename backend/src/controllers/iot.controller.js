@@ -1,38 +1,24 @@
 
-// controllers/iot.controller.js
-
 import Zone from "../models/zone.model.js";
 import SensorData from "../models/sensorData.model.js";
 import Alert from "../models/alert.model.js";
-
-
 import {
   evaluateSensorData,
   getSupplyStatus,
 } from "../services/abnormality.service.js";
-
 import {
   ALERT_TYPES,
   SUPPLY_STATUS,
 } from "../config/thresholds.js";
-
 import {
   successResponse,
   errorResponse,
 } from "../utils/response.js";
 
-/**
- * Receive IoT sensor data (simulated or real)
- * POST /api/iot/data
- */
 export const receiveSensorData = async (req, res) => {
   try {
     const { zoneId, pressure, flow } = req.body;
 
-
-    // 1️⃣ Basic validation
-
- 
     if (!zoneId || pressure == null || flow == null) {
       return errorResponse(
         res,
@@ -41,23 +27,16 @@ export const receiveSensorData = async (req, res) => {
       );
     }
 
-
-    // 2️⃣ Check zone exists
-
     const zone = await Zone.findById(zoneId);
     if (!zone || !zone.isActive) {
       return errorResponse(res, "Invalid or inactive zone", 404);
     }
 
-
-    // 3️⃣ Store sensor data (HISTORY)
     await SensorData.create({
       zone_id: zoneId,
       pressure,
       flow,
     });
-
-    // 4️⃣ Fetch latest readings (for uneven distribution logic)
 
     const latestReadings = await SensorData.aggregate([
       { $sort: { created_at: -1 } },
@@ -69,9 +48,6 @@ export const receiveSensorData = async (req, res) => {
       },
     ]);
 
-
-    // 5️⃣ Evaluate abnormalities
-
     const abnormality = evaluateSensorData({
       pressure,
       flow,
@@ -80,9 +56,6 @@ export const receiveSensorData = async (req, res) => {
         pressure: z.pressure,
       })),
     });
-
-
-    // 6️⃣ Create alert if needed
 
     if (abnormality) {
       await Alert.create({
@@ -95,19 +68,13 @@ export const receiveSensorData = async (req, res) => {
       });
     }
 
-
-    // 7️⃣ Update zone snapshot (🔥 THIS WAS MISSING 🔥)
-    zone.pressure = pressure;          // 👈 REQUIRED for dashboard
-    zone.flowRate = flow;              // 👈 REQUIRED for dashboard
-    zone.lastUpdated = new Date();     // 👈 REQUIRED for UI timestamp
+    zone.pressure = pressure;
+    zone.flowRate = flow;
+    zone.lastUpdated = new Date();
     zone.status = abnormality ? "ALERT" : "NORMAL";
-
-    // 8️⃣ Update supply status
     zone.supply_status = getSupplyStatus(pressure);
 
     await zone.save();
-
-    // 9️⃣ Response
 
     return successResponse(
       res,
@@ -118,7 +85,6 @@ export const receiveSensorData = async (req, res) => {
         flow,
         supply_status: zone.supply_status,
         status: zone.status,
-
         alert: abnormality || null,
       }
     );

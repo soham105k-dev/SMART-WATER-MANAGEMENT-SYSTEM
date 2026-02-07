@@ -1,50 +1,32 @@
-// controllers/dashboard.controller.js
-
 import Zone from "../models/zone.model.js";
 import SensorData from "../models/sensorData.model.js";
 import Alert from "../models/alert.model.js";
-
 import {
   successResponse,
   errorResponse,
 } from "../utils/response.js";
 
-/**
-<<<<<<< HEAD
- * GET /api/dashboard/zones
- * City-wide zone overview (LATEST SNAPSHOT)
- */
 export const getAllZones = async (req, res) => {
   try {
-    // 1️⃣ Fetch active zones
     const zones = await Zone.find({ isActive: true });
 
-    // 2️⃣ Fetch latest sensor reading PER zone
     const latestSensorData = await SensorData.aggregate([
-      { $sort: { createdAt: -1 } }, // ✅ correct timestamp field
-
+      { $sort: { createdAt: -1 } },
       {
         $group: {
           _id: "$zone_id",
           pressure: { $first: "$pressure" },
           flow: { $first: "$flow" },
-
           lastUpdated: { $first: "$createdAt" },
-
         },
       },
     ]);
-
-
-    // 3️⃣ Convert aggregation result to lookup map
 
     const sensorMap = {};
     latestSensorData.forEach((item) => {
       sensorMap[item._id.toString()] = item;
     });
 
-
-    // 4️⃣ Build dashboard-safe response (frontend-ready)
     const response = zones.map((zone) => {
       const sensor = sensorMap[zone._id.toString()];
 
@@ -53,14 +35,11 @@ export const getAllZones = async (req, res) => {
         name: zone.name,
         supply_status: zone.supply_status,
         status: zone.status || "NORMAL",
-
-        // ✅ frontend EXPECTS these exact keys
         pressure: sensor?.pressure ?? 0,
         flowRate: sensor?.flow ?? 0,
         lastUpdated: sensor?.lastUpdated ?? null,
       };
     });
-
 
     return successResponse(
       res,
@@ -73,12 +52,6 @@ export const getAllZones = async (req, res) => {
   }
 };
 
-/**
-
- * GET /api/dashboard/alerts
-
- * Fetch all ACTIVE alerts
- */
 export const getActiveAlerts = async (req, res) => {
   try {
     const alerts = await Alert.find({ status: "ACTIVE" })
@@ -105,11 +78,6 @@ export const getActiveAlerts = async (req, res) => {
   }
 };
 
-/**
-
- * GET /api/dashboard/zones/:zoneId
- * Detailed analytics for a specific zone
- */
 export const getZoneAnalytics = async (req, res) => {
   try {
     const { zoneId } = req.params;
@@ -120,9 +88,7 @@ export const getZoneAnalytics = async (req, res) => {
     }
 
     const recentReadings = await SensorData.find({ zone_id: zoneId })
-
       .sort({ createdAt: -1 })
-
       .limit(20);
 
     const alerts = await Alert.find({ zone_id: zoneId })
@@ -138,7 +104,6 @@ export const getZoneAnalytics = async (req, res) => {
           name: zone.name,
           supply_status: zone.supply_status,
           status: zone.status,
-
         },
         recentReadings,
         alerts,
