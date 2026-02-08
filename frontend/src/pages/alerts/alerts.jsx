@@ -10,8 +10,6 @@ const alerts = () => {
     const fetchAlerts = async () => {
       try {
         const res = await getDashboardAlerts();
-        
-        // Extract alerts data from response
         const alertsData = res?.data || [];
         setAlertList(alertsData);
       } catch (error) {
@@ -22,7 +20,6 @@ const alerts = () => {
 
     fetchAlerts();
 
-    // Auto-refresh alerts every 3 seconds for real-time data
     const interval = setInterval(fetchAlerts, 3000);
     return () => clearInterval(interval);
   }, []);

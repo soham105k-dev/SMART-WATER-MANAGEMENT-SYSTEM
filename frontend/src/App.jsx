@@ -11,7 +11,6 @@ function App() {
   return (
     <Routes>
       <Route element={<DashboardLayout />}>
-        {/* default route → / */}
         <Route index element={<Dashboard />} />
 
         <Route path="dashboard" element={<Dashboard />} />

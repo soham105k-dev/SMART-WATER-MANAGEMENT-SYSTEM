@@ -7,7 +7,6 @@ const Header = () => {
     <header className="header">
     <div className="header-container">
         <div className="header-left">
-            {/* <img src="/logo.png" alt="Logo" className="header-logo" /> */}
             <h1 className="header-title">Smart Water Pressure Management System</h1>
             <p className="header-subtitle">Solapur Municipal Corporation</p>
         </div>

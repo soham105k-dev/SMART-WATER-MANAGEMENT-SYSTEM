@@ -32,8 +32,7 @@ const Login = () => {
 };   
 
 
-  const isAuthenticated = false; // Replace with actual authentication check
-
+  const isAuthenticated = false; 
     if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
     }
@@ -52,7 +51,7 @@ const Login = () => {
         <form onSubmit={handleSubmit}>      
             <div className="input-group">
                 <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
-                {/* <label htmlFor="email">Email:</label> */}
+
                     <input
                     type="email"
                     placeholder = "admin@solapur.gov.in"
@@ -65,8 +64,7 @@ const Login = () => {
 
             <div className="input-group">
                 <FontAwesomeIcon icon={faLock} className="input-icon" />
-                {/* <label htmlFor="password">Password:</label> */}
-                    <input
+                <input
                     type="password"
                     id="password"
                     placeholder="Enter your password"

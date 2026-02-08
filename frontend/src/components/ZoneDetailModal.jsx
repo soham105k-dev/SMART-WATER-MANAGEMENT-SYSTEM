@@ -12,8 +12,6 @@ const ZoneDetailModal = ({ zoneId, zoneName, onClose }) => {
       try {
         setLoading(true);
         const res = await getZoneAnalytics(zoneId);
-        console.log("Zone Analytics Response:", res);
-        
         const analyticsData = res?.data || {};
         setAnalytics(analyticsData);
       } catch (error) {
@@ -58,7 +56,6 @@ const ZoneDetailModal = ({ zoneId, zoneName, onClose }) => {
         </div>
 
         <div className="modal-body">
-          {/* Zone Status Section */}
           <section className="modal-section">
             <h3>Current Status</h3>
             <div className="status-grid">
@@ -77,7 +74,6 @@ const ZoneDetailModal = ({ zoneId, zoneName, onClose }) => {
             </div>
           </section>
 
-          {/* Alert History Section */}
           <section className="modal-section">
             <h3>Alert History ({alerts.length})</h3>
             {alerts.length > 0 ? (
@@ -104,7 +100,6 @@ const ZoneDetailModal = ({ zoneId, zoneName, onClose }) => {
             )}
           </section>
 
-          {/* Recent Readings Section */}
           <section className="modal-section">
             <h3>Recent Readings ({recentReadings.length})</h3>
             {recentReadings.length > 0 ? (

@@ -41,7 +41,7 @@ const Analytics = () => {
         setZones(zonesData);
         setAlerts(alertsData);
 
-        // Prepare chart data - zone comparison
+        
         const chartDataFormatted = zonesData.map((zone) => ({
           name: zone.name.substring(0, 8),
           pressure: zone.pressure || 0,
@@ -50,7 +50,7 @@ const Analytics = () => {
         }));
         setChartData(chartDataFormatted);
 
-        // Fetch detailed analytics for each zone
+        
         const detailedZones = await Promise.all(
           zonesData.map(async (zone) => {
             try {
@@ -67,7 +67,6 @@ const Analytics = () => {
                 alerts: zoneAnalytics.alerts || [],
               };
             } catch (error) {
-              console.error(`Error fetching analytics for zone ${zone._id}:`, error);
               return {
                 _id: zone._id,
                 name: zone.name,
@@ -84,14 +83,12 @@ const Analytics = () => {
         setZoneDetails(detailedZones);
       } catch (error) {
         console.error("Failed to fetch analytics data:", error);
-      } finally {
         setLoading(false);
       }
     };
 
     fetchAnalyticsData();
 
-    // Refresh every 10 seconds
     const interval = setInterval(fetchAnalyticsData, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -104,7 +101,6 @@ const Analytics = () => {
     );
   }
 
-  // Calculate statistics
   const avgPressure =
     zones.length > 0
       ? (zones.reduce((sum, z) => sum + (z.pressure || 0), 0) / zones.length).toFixed(2)
@@ -136,7 +132,6 @@ const Analytics = () => {
         <p>Comprehensive water system monitoring and analysis</p>
       </div>
 
-      {/* Key Metrics */}
       <section className="metrics-section">
         <div className="metric-card">
           <h4>Avg Pressure</h4>
@@ -156,7 +151,6 @@ const Analytics = () => {
         </div>
       </section>
 
-      {/* Charts Section */}
       <section className="charts-section">
         <div className="chart-container">
           <h3>Pressure & Flow Comparison by Zone</h3>
@@ -198,7 +192,6 @@ const Analytics = () => {
         </div>
       </section>
 
-      {/* Alert Statistics */}
       <section className="alerts-stats-section">
         <h3>Alert Statistics</h3>
         <div className="alert-stats">
@@ -217,7 +210,6 @@ const Analytics = () => {
         </div>
       </section>
 
-      {/* Zone-wise Detailed Statistics */}
       <section className="zone-details-section">
         <h3>Zone-wise Details</h3>
         <div className="zones-grid">

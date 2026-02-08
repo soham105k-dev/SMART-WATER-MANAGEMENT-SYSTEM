@@ -32,8 +32,6 @@ const SimulationControlPanel = () => {
   const handleLowPressure = async () => {
     setLoading(true);
     try {
-      // Get all zones first and trigger on the first one
-      // For now, we'll trigger on a generic zone
       await triggerLowPressure("trigger-all");
       setStatusMessage("✓ Low Pressure scenario triggered");
       setTimeout(() => setStatusMessage(""), 3000);

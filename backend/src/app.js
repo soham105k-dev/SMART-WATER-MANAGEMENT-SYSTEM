@@ -4,8 +4,6 @@ import iotRoutes from "./routes/iot.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import simulatorRoutes from "./routes/simulator.routes.js";
 
-
-
 const app = express()
 app.use(cors({
     origin:process.env.CORS_ORIGIN,
@@ -17,6 +15,5 @@ app.use(express.static("public"))
 app.use("/api", iotRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/simulator", simulatorRoutes);
-
 
 export default app

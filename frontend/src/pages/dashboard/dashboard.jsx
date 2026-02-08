@@ -19,24 +19,17 @@ const Dashboard = () => {
         const zonesRes = await getDashboardZones();
         const alertsRes = await getDashboardAlerts();
 
-        // Extract data from response - response.data property contains the zones/alerts array
         setZones(zonesRes?.data || []);
         setAlerts(alertsRes?.data || []);
       } catch (error) {
-        console.error("Dashboard API error:", error);
       }
     };
 
     fetchDashboardData();
 
-    // Auto-refresh every 3 seconds for real-time updates
     const interval = setInterval(fetchDashboardData, 3000);
     return () => clearInterval(interval);
   }, []);
-
-  // =========================
-  // DASHBOARD CALCULATIONS
-  // =========================
 
   const avgPressure =
     zones.length > 0
@@ -82,7 +75,6 @@ const Dashboard = () => {
 
       <ZonalData zones={zones} enableModal={false} />
 
-      {/* Show alerts summary on dashboard */}
       <section style={{ marginTop: "2rem" }}>
         <h2 style={{ marginBottom: "1rem" }}>Active Alerts</h2>
         <AlertsPanel alerts={alerts} />

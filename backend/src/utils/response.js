@@ -11,7 +11,6 @@ export const successResponse = (
   });
 };
 
-
 export const errorResponse = (
   res,
   message = "Internal Server Error",

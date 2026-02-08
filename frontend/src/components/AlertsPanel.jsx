@@ -17,7 +17,6 @@ const AlertsPanel = ({ alerts = [] }) => {
 
           <ul className="alerts-list">
             {alerts.map((alert) => {
-              // Map backend data to display format
               const displayAlert = {
                 id: alert.alertId || alert._id,
                 ward: alert.zoneName || "Unknown Zone",

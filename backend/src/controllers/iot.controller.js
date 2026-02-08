@@ -1,4 +1,3 @@
-
 import Zone from "../models/zone.model.js";
 import SensorData from "../models/sensorData.model.js";
 import Alert from "../models/alert.model.js";

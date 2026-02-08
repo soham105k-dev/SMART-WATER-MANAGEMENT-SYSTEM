@@ -6,10 +6,9 @@ import app from "./app.js";
 ConnectDB()
   .then(async () => {
     app.listen(process.env.PORT || 5000, () => {
-      console.log(`Server is running on port ${process.env.PORT || 5000}`);
-      console.log("Use POST /api/simulator/start to begin IoT simulation");
+      console.log(`Server is running at port ${process.env.PORT || 5000}`);
     });
   })
   .catch((err) => {
-    console.log("MongoDB connection error:", err);
+    console.error("MongoDB connection failed:", err);
   });

@@ -1,22 +1,19 @@
 export const PRESSURE = {
-  MIN_SAFE: 2.0,        
-  NORMAL_MIN: 2.5,      
-  NORMAL_MAX: 3.5,      
-  CRITICAL_LOW: 1.5     
+  MIN_SAFE: 2.0,
+  NORMAL_MIN: 2.5,
+  NORMAL_MAX: 3.5,
+  CRITICAL_LOW: 1.5
 };
-
 
 export const FLOW = {
   NORMAL_MIN: 250,
   NORMAL_MAX: 450,
-  HIGH_FLOW: 500        
+  HIGH_FLOW: 500
 };
-
 
 export const DISTRIBUTION = {
-  MAX_PRESSURE_DIFFERENCE: 1.0 
+  MAX_PRESSURE_DIFFERENCE: 1.0
 };
-
 
 export const SEVERITY_RULES = {
   LOW_PRESSURE: {

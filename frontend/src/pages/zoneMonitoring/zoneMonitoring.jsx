@@ -8,23 +8,16 @@ const ZoneMonitoring = () => {
 
   useEffect(() => {
     const fetchZones = async () => {
-  try {
-    const res = await getDashboardZones();
-    console.log("FULL API RESPONSE:", res);
-
-    // Extract zones from response - res is already the response body
-    const zonesFromApi = res?.data || [];
-
-    console.log("ZONES EXTRACTED:", zonesFromApi);
-    setZones(zonesFromApi);
-  } catch (error) {
-    console.error("Zone Monitoring fetch error:", error);
-  }
-};
+      try {
+        const res = await getDashboardZones();
+        const zonesFromApi = res?.data || [];
+        setZones(zonesFromApi);
+      } catch (error) {
+      }
+    };
 
     fetchZones();
 
-    // 🔁 Auto-refresh every 3 seconds for real-time updates
     const interval = setInterval(fetchZones, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -53,7 +46,6 @@ const ZoneMonitoring = () => {
       </section>
 
       <section className="zone-stat">
-        {/* ✅ PASS LIVE DATA */}
         <ZonalData zones={zones} />
       </section>
 

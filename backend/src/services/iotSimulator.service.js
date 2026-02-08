@@ -48,8 +48,6 @@ const pushSensorData = async (payload) => {
 export const startSimulation = async (zones) => {
   if (simulationTimer) return;
 
-  console.log("IoT Simulation started (every 1 minute)");
-
   await Promise.all(
     zones.map((zone) =>
       pushSensorData(generateNormalData(zone._id.toString()))
@@ -62,7 +60,6 @@ export const startSimulation = async (zones) => {
         pushSensorData(generateNormalData(zone._id.toString()))
       )
     );
-    console.log("Sensor data pushed at:", new Date().toLocaleTimeString());
   }, SIMULATION_INTERVAL);
 };
 
@@ -70,22 +67,18 @@ export const stopSimulation = () => {
   if (simulationTimer) {
     clearInterval(simulationTimer);
     simulationTimer = null;
-    console.log("IoT Simulation stopped");
   }
 };
 
 export const triggerLowPressure = async (zoneId) => {
-  console.log(`Low pressure triggered for zone ${zoneId}`);
   await pushSensorData(simulateLowPressure(zoneId));
 };
 
 export const triggerLeakage = async (zoneId) => {
-  console.log(`Leakage triggered for zone ${zoneId}`);
   await pushSensorData(simulateLeakage(zoneId));
 };
 
 export const triggerUnevenDistribution = async (zones) => {
-  console.log("Uneven distribution triggered");
   const payloads = simulateUnevenDistribution(zones);
   await Promise.all(payloads.map(pushSensorData));
 };

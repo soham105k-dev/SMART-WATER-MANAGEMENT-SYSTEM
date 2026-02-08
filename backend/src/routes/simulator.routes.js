@@ -16,7 +16,6 @@ const router = express.Router();
 router.post("/start", startIoTSimulation);
 router.post("/stop", stopIoTSimulation);
 
-
 router.post("/trigger/low-pressure/:zoneId", async (req, res) => {
   await triggerLowPressure(req.params.zoneId);
   res.json({ success: true, message: "Low pressure triggered" });
