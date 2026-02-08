@@ -20,6 +20,16 @@
   margin-bottom: 22px;
 }
 
+.status-message {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  border-left: 4px solid #2e7d32;
+}
+
 .simulation-buttons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -38,6 +48,11 @@
   cursor: pointer;
   text-align: left;
   transition: all 0.25s ease;
+}
+
+.sim-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .sim-btn .icon {
@@ -64,7 +79,7 @@
   color: #ffffff;
 }
 
-.sim-btn.primary:hover {
+.sim-btn.primary:hover:not(:disabled) {
   background: #163c74;
   transform: translateY(-4px);
 }
@@ -75,7 +90,7 @@
   color: #1f2937;
 }
 
-.sim-btn.reset:hover {
+.sim-btn.reset:hover:not(:disabled) {
   background: #f4f6f9;
 }
 
@@ -83,7 +98,7 @@
   grid-column: span 1;
 }
 
-.sim-btn:active {
+.sim-btn:active:not(:disabled) {
   transform: scale(0.98);
 }
 

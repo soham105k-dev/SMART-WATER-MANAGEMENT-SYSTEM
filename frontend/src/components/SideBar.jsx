@@ -6,7 +6,6 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { CiMap } from "react-icons/ci";
 import { FiAlertTriangle } from "react-icons/fi";
 import { VscGraph } from "react-icons/vsc";
-import { IoSettingsOutline } from "react-icons/io5";
 import { FaChevronLeft } from "react-icons/fa";
 
 const SideBar = () => {
@@ -49,13 +48,6 @@ const SideBar = () => {
           <NavLink to="/analytics" className="sidebar-link">
             <VscGraph />
             <span className="sidebar-text">Analytics</span>
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink to="/settings" className="sidebar-link">
-            <IoSettingsOutline />
-            <span className="sidebar-text">Settings</span>
           </NavLink>
         </li>
       </ul>

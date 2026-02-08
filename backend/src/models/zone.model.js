@@ -14,6 +14,27 @@ const zoneSchema = new mongoose.Schema(
       default: "NORMAL",
     },
 
+    status: {
+      type: String,
+      enum: ["NORMAL", "WARNING", "CRITICAL", "ALERT"],
+      default: "NORMAL",
+    },
+
+    pressure: {
+      type: Number,
+      default: 2.5,
+    },
+
+    flowRate: {
+      type: Number,
+      default: 0,
+    },
+
+    lastUpdated: {
+      type: Date,
+      default: Date.now,
+    },
+
     isActive: {
       type: Boolean,
       default: true,

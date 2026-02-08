@@ -1,7 +1,32 @@
 import AlertsPanel from "../../components/AlertsPanel";
 import "./alerts.css";
+import { useState, useEffect } from "react";
+import { getDashboardAlerts } from "../../services/dashboard.service";
 
 const alerts = () => {
+  const [alertList, setAlertList] = useState([]);
+
+  useEffect(() => {
+    const fetchAlerts = async () => {
+      try {
+        const res = await getDashboardAlerts();
+        
+        // Extract alerts data from response
+        const alertsData = res?.data || [];
+        setAlertList(alertsData);
+      } catch (error) {
+        console.error("Failed to fetch alerts:", error);
+        setAlertList([]);
+      }
+    };
+
+    fetchAlerts();
+
+    // Auto-refresh alerts every 3 seconds for real-time data
+    const interval = setInterval(fetchAlerts, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>    
       <header className="alerts-header">   
@@ -10,7 +35,7 @@ const alerts = () => {
       </header>
 
       <section>
-        <AlertsPanel />
+        <AlertsPanel alerts={alertList} />
       </section>
 
       <footer className="alerts-footer">

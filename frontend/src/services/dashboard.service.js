@@ -16,3 +16,9 @@ export const getDashboardAlerts = async () => {
   const response = await axios.get(`${API_BASE_URL}/dashboard/alerts`);
   return response.data;
 };
+
+// Get zone analytics for a specific zone
+export const getZoneAnalytics = async (zoneId) => {
+  const response = await axios.get(`${API_BASE_URL}/dashboard/zones/${zoneId}`);
+  return response.data;
+};

@@ -1,5 +1,6 @@
 import DashboardStats from "../../components/DashboardStats";
 import ZonalData from "../../components/ZonalData";
+import AlertsPanel from "../../components/AlertsPanel";
 import "./dashboard.css";
 
 import { useEffect, useState } from "react";
@@ -18,26 +19,19 @@ const Dashboard = () => {
         const zonesRes = await getDashboardZones();
         const alertsRes = await getDashboardAlerts();
 
-        // ✅ SAFE DATA EXTRACTION (handles all common backend response shapes)
-        setZones(
-          zonesRes?.data?.zones ||
-          zonesRes?.data?.data ||
-          zonesRes?.data ||
-          []
-        );
-
-        setAlerts(
-          alertsRes?.data?.alerts ||
-          alertsRes?.data?.data ||
-          alertsRes?.data ||
-          []
-        );
+        // Extract data from response - response.data property contains the zones/alerts array
+        setZones(zonesRes?.data || []);
+        setAlerts(alertsRes?.data || []);
       } catch (error) {
         console.error("Dashboard API error:", error);
       }
     };
 
     fetchDashboardData();
+
+    // Auto-refresh every 3 seconds for real-time updates
+    const interval = setInterval(fetchDashboardData, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   // =========================
@@ -86,7 +80,13 @@ const Dashboard = () => {
         zonesNormal={zonesNormal}
       />
 
-      <ZonalData zones={zones} />
+      <ZonalData zones={zones} enableModal={false} />
+
+      {/* Show alerts summary on dashboard */}
+      <section style={{ marginTop: "2rem" }}>
+        <h2 style={{ marginBottom: "1rem" }}>Active Alerts</h2>
+        <AlertsPanel alerts={alerts} />
+      </section>
 
     </div>
   );

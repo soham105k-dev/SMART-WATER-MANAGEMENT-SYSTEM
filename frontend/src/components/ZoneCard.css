@@ -18,6 +18,7 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .zone-card::before {
@@ -59,6 +60,7 @@
 .status-indicator.normal { background: #10b981; }
 .status-indicator.warning { background: #f59e0b; }
 .status-indicator.critical { background: #ef4444; }
+.status-indicator.alert { background: #f59e0b; }
 
 .metrics-grid {
   display: grid;
@@ -122,8 +124,13 @@
 }
 
 .zone-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.15);
+  border-color: #1f4e94;
+}
+
+.zone-card:active {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
 @media (max-width: 768px) {

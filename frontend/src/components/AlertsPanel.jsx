@@ -1,6 +1,6 @@
 import "./AlertsPanel.css";
 
-const AlertsPanel = ({ alerts }) => {
+const AlertsPanel = ({ alerts = [] }) => {
   const hasAlerts = alerts && alerts.length > 0;
 
   return (
@@ -13,21 +13,35 @@ const AlertsPanel = ({ alerts }) => {
         </div>
       ) : (
         <div className="alerts-active">
-          <h2>Active Alerts</h2>
+          <h2>Active Alerts ({alerts.length})</h2>
 
           <ul className="alerts-list">
-            {alerts.map((alert) => (
-              <li
-                key={alert.id}
-                className={`alert-item ${alert.level}`}
-              >
-                <div className="alert-info">
-                  <strong>{alert.ward}</strong> — {alert.type}
-                  <p>{alert.message}</p>
-                </div>
-                <span className="alert-time">{alert.time}</span>
-              </li>
-            ))}
+            {alerts.map((alert) => {
+              // Map backend data to display format
+              const displayAlert = {
+                id: alert.alertId || alert._id,
+                ward: alert.zoneName || "Unknown Zone",
+                type: alert.type || "Unknown",
+                message: alert.message || "Alert triggered",
+                level: (alert.severity || "").toLowerCase() || "warning",
+                time: alert.submitted_at 
+                  ? new Date(alert.submitted_at).toLocaleTimeString()
+                  : "Unknown time"
+              };
+
+              return (
+                <li
+                  key={displayAlert.id}
+                  className={`alert-item ${displayAlert.level}`}
+                >
+                  <div className="alert-info">
+                    <strong>{displayAlert.ward}</strong> — {displayAlert.type}
+                    <p>{displayAlert.message}</p>
+                  </div>
+                  <span className="alert-time">{displayAlert.time}</span>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

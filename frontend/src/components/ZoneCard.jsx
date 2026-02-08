@@ -2,19 +2,37 @@ import "./ZoneCard.css";
 import { FiCircle, FiCheckCircle } from "react-icons/fi";
 
 const ZoneCard = ({ 
+  zoneId,
   ward, 
   pressure, 
   flowRate, 
-  pressureStatus = "Normal", 
-  flowStatus = "Normal",
-  updated 
+  status = "Normal", 
+  updated,
+  onCardClick
 }) => {
+  const getStatusColor = (status) => {
+    switch(status?.toUpperCase()) {
+      case "CRITICAL":
+        return "critical";
+      case "WARNING":
+        return "warning";
+      case "ALERT":
+        return "alert";
+      default:
+        return "normal";
+    }
+  };
+
   return (
-  <div className="zone-grid">
+  <div 
+    className="zone-grid"
+    onClick={() => onCardClick && onCardClick(zoneId)}
+    style={{ cursor: "pointer" }}
+  >
     <div className="zone-card">
       <div className="zone-header">
         <h3 className="zone-name">{ward}</h3>
-        <div className="status-indicator normal">
+        <div className={`status-indicator ${getStatusColor(status)}`}>
           <FiCircle />
         </div>
       </div>
@@ -38,7 +56,7 @@ const ZoneCard = ({
       </div>
       
       <div className="zone-footer">
-        <span className="updated-text">Updated {updated}</span>
+        <span className="updated-text">Updated {updated ? new Date(updated).toLocaleTimeString() : "N/A"}</span>
       </div>
     </div>
   </div>
