@@ -81,6 +81,7 @@ const Analytics = () => {
           })
         );
         setZoneDetails(detailedZones);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch analytics data:", error);
         setLoading(false);
